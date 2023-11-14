@@ -1,0 +1,20 @@
+version: 0.0
+os: linux
+
+files:
+  - source: ./
+    destination: /var/www/html/backup-dir
+    overwrite: yes
+
+hooks:
+  BeforeInstall:
+    - location: stop_apache.sh 
+      runas: root
+  AfterInstall:
+    - location: start_apache.sh
+      timeout: 180
+      runas: root
+  ValidateService:
+    - location: status_apache.sh
+      timeout: 3600
+      runas: root
